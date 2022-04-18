@@ -2,7 +2,7 @@
 from twisted.internet.defer import Deferred
 
 from kivy_garden.ebs.core.colors import color_set_alpha
-from kivy_garden.ebs.marqueemarquee import MarqueeLabel
+from kivy_garden.ebs.marquee import MarqueeLabel
 
 from ebs.linuxnode.gui.kivy.core.basenode import BaseIoTNodeGui
 
@@ -78,15 +78,14 @@ class MarqueeGuiMixin(BaseIoTNodeGui):
             params = {'bgcolor': (self._gui_marquee_bgcolor or
                                   color_set_alpha(self.gui_color_2, 0.6)),
                       'color': [1, 1, 1, 1],
-                      'font_size': '32sp'}
-            if self.config.text_font_name:
-                params['font_name'] = self.config.text_font_name
-            self._gui_marquee = MarqueeLabel(text='Marquee Text', **params)
+                      'font_size': '32sp', **self.text_font_params}
 
+            self._gui_marquee = MarqueeLabel(text='Marquee Text', **params)
             self.gui_footer.add_widget(self._gui_marquee)
             self.marquee_hide()
         return self._gui_marquee
 
     def gui_setup(self):
-        super(MarqueeGuiMixin, self).gui_setup()
+        gui = super(MarqueeGuiMixin, self).gui_setup()
         _ = self.gui_marquee
+        return gui
