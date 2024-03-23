@@ -34,10 +34,13 @@ class MarqueeGuiMixin(BaseIoTNodeGui):
         self._marquee_collision_count = 0
 
     def marquee_show(self):
-        self.gui_footer_show()
+        self.gui_footer.add_widget(self._gui_marquee)
+        self.gui_footer_show('marquee')
 
     def marquee_hide(self):
-        self.gui_footer_hide()
+        self.gui_footer_hide('marquee')
+        self.gui_footer.remove_widget(self._gui_marquee)
+
 
     def marquee_play(self, text, duration=None, loop=True):
         if self._marquee_deferred:
@@ -81,7 +84,6 @@ class MarqueeGuiMixin(BaseIoTNodeGui):
                       'font_size': '32sp', **self.text_font_params}
 
             self._gui_marquee = MarqueeLabel(text='Marquee Text', **params)
-            self.gui_footer.add_widget(self._gui_marquee)
             self.marquee_hide()
         return self._gui_marquee
 
