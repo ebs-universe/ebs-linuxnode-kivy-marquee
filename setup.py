@@ -2,9 +2,9 @@ import setuptools
 
 _requires = [
     'setuptools-scm',
-    'ebs-linuxnode-gui-kivy-core>=2.0',
+    'ebs-linuxnode-gui-kivy-core>=3.3.0',
     # ebs Widgets
-    'kivy_garden.ebs.marquee>=1.2',
+    'kivy_garden.ebs.marquee>=3.0',
 ]
 
 setuptools.setup(

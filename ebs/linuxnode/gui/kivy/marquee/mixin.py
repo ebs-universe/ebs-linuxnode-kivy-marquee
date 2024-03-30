@@ -57,7 +57,7 @@ class MarqueeGuiMixin(BaseIoTNodeGui):
             self._gui_marquee.start(loop=loop)
             self._marquee_end_call = self.reactor.callLater(duration, self.marquee_stop)
         else:
-            self._gui_marquee.start(callback=self.marquee_stop)
+            self._gui_marquee.start(callback=self.marquee_stop, loop=loop)
         self._marquee_deferred = Deferred()
         return self._marquee_deferred
 
