@@ -128,6 +128,8 @@ class MarqueeGuiMixin(BaseIoTNodeGui):
     @marquee_default_text.setter
     def marquee_default_text(self, value):
         self._marquee_default_text = value
+        if not self._marquee_is_default and not self._marquee_default_task:
+            self._marquee_default_start()
 
     @property
     def marquee_default_frequency(self):
