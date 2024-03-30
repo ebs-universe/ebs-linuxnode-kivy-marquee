@@ -4,7 +4,7 @@ _requires = [
     'setuptools-scm',
     'ebs-linuxnode-gui-kivy-core>=3.3.0',
     # ebs Widgets
-    'kivy_garden.ebs.marquee>=3.0',
+    'kivy_garden.ebs.marquee>=3.1',
 ]
 
 setuptools.setup(
