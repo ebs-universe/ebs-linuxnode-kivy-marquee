@@ -94,8 +94,7 @@ class MarqueeGuiMixin(BaseIoTNodeGui):
             self._marquee_deferred.callback(forced)
             self._marquee_deferred = None
 
-        if self._marquee_is_default:
-            self._marquee_is_default = False
+        self._marquee_is_default = False
 
         if self.marquee_default_text and not self._marquee_default_task:
             self._marquee_default_start()
@@ -127,8 +126,16 @@ class MarqueeGuiMixin(BaseIoTNodeGui):
 
     @marquee_default_text.setter
     def marquee_default_text(self, value):
+        restart = False
+        if value != self._marquee_default_text:
+            if self._marquee_default_task:
+                self._marquee_default_task.stop()
+                self._marquee_default_task = None
+            if self._marquee_is_default:
+                self.marquee_stop()
+            restart = True
         self._marquee_default_text = value
-        if not self._marquee_is_default and not self._marquee_default_task:
+        if restart:
             self._marquee_default_start()
 
     @property
@@ -137,9 +144,23 @@ class MarqueeGuiMixin(BaseIoTNodeGui):
 
     @marquee_default_frequency.setter
     def marquee_default_frequency(self, value):
+        restart = False
+        if value != self._marquee_default_frequency:
+            if self._marquee_default_task:
+                self._marquee_default_task.stop()
+                self._marquee_default_task = None
+            if self._marquee_is_default:
+                self.marquee_stop()
+            restart = True
         self._marquee_default_frequency = value
+        if restart:
+            self._marquee_default_start()
 
     def _marquee_play_default_once(self):
+        if not self.marquee_default_text or not self.marquee_default_frequency:
+            self._marquee_default_task.stop()
+            self._marquee_default_task = None
+            return
         # TODO Manage rescheduling if this
         #  collides with a scheduled marquee
         self.marquee_play (
@@ -149,9 +170,7 @@ class MarqueeGuiMixin(BaseIoTNodeGui):
         self._marquee_is_default = True
 
     def _marquee_default_start(self):
-        if not self.marquee_default_text:
-            return
-        if not self.marquee_default_frequency:
+        if not self.marquee_default_text or not self.marquee_default_frequency:
             return
         if self.marquee_default_frequency > 0:
             self._marquee_default_task = task.LoopingCall(
