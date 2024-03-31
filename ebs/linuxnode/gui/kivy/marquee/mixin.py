@@ -106,6 +106,8 @@ class MarqueeGuiMixin(BaseIoTNodeGui):
     @marquee_default_bgcolor.setter
     def marquee_default_bgcolor(self, value):
         # TODO Read / Write from config so it survives restart?
+        if self.gui_marquee:
+            self.gui_marquee.bgcolor = color_set_alpha(value, 0.5)
         self._gui_marquee_bgcolor = color_set_alpha(value, 0.5)
 
     @property
@@ -115,6 +117,8 @@ class MarqueeGuiMixin(BaseIoTNodeGui):
     @marquee_default_color.setter
     def marquee_default_color(self, value):
         # TODO Read / Write from config so it survives restart?
+        if self.gui_marquee:
+            self.gui_marquee.color = color_set_alpha(value, 1)
         self._gui_marquee_color = color_set_alpha(value, 1)
 
     @property
@@ -127,6 +131,7 @@ class MarqueeGuiMixin(BaseIoTNodeGui):
     @marquee_default_text.setter
     def marquee_default_text(self, value):
         restart = False
+        self.log.error(f"Setting text {value}")
         if value != self._marquee_default_text:
             if self._marquee_default_task:
                 self._marquee_default_task.stop()
@@ -144,6 +149,7 @@ class MarqueeGuiMixin(BaseIoTNodeGui):
 
     @marquee_default_frequency.setter
     def marquee_default_frequency(self, value):
+        self.log.error(f"Setting frequency {value}")
         restart = False
         if value != self._marquee_default_frequency:
             if self._marquee_default_task:
@@ -188,7 +194,7 @@ class MarqueeGuiMixin(BaseIoTNodeGui):
         if not self._gui_marquee:
             params = {'bgcolor': self.marquee_default_bgcolor,
                       'color': self.marquee_default_color,
-                      'font_size': '32sp', **self.text_font_params}
+                      'font_size': '30sp', **self.text_font_params}
 
             self._gui_marquee = MarqueeLabel(text='Marquee Text', **params)
             self.marquee_hide()
