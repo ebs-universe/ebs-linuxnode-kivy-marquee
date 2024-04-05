@@ -131,7 +131,6 @@ class MarqueeGuiMixin(BaseIoTNodeGui):
     @marquee_default_text.setter
     def marquee_default_text(self, value):
         restart = False
-        self.log.error(f"Setting text {value}")
         if value != self._marquee_default_text:
             if self._marquee_default_task:
                 self._marquee_default_task.stop()
@@ -149,7 +148,6 @@ class MarqueeGuiMixin(BaseIoTNodeGui):
 
     @marquee_default_frequency.setter
     def marquee_default_frequency(self, value):
-        self.log.error(f"Setting frequency {value}")
         restart = False
         if value != self._marquee_default_frequency:
             if self._marquee_default_task:
